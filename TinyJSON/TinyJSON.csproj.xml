@@ -5,15 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{2CA10905-12EB-4550-9FCF-AEA9572E3B88}</ProjectGuid>
+    <ProjectGuid>{B7E22DAC-A8C9-4E8B-A7F7-F8336836CAFD}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>UnitTests</RootNamespace>
-    <AssemblyName>UnitTests</AssemblyName>
+    <RootNamespace>TinyJSON</RootNamespace>
+    <AssemblyName>TinyJSON</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
@@ -22,7 +21,6 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
@@ -31,24 +29,23 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TestSimpleTypes.cs" />
-    <Compile Include="TestClassType.cs" />
-    <Compile Include="TestCollectionTypes.cs" />
-    <Compile Include="TestStructType.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Decoder.cs" />
+    <Compile Include="Encoder.cs" />
+    <Compile Include="Types\Variant.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Types\ProxyArray.cs" />
+    <Compile Include="Types\ProxyBoolean.cs" />
+    <Compile Include="Types\ProxyObject.cs" />
+    <Compile Include="Types\ProxyString.cs" />
+    <Compile Include="Types\ProxyNumber.cs" />
+    <Compile Include="JSON.cs" />
+    <Compile Include="EncodeOptions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\TinyJSON\TinyJSON.csproj">
-      <Project>{B7E22DAC-A8C9-4E8B-A7F7-F8336836CAFD}</Project>
-      <Name>TinyJSON</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <Folder Include="Types\" />
   </ItemGroup>
 </Project>

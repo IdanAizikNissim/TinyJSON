@@ -239,9 +239,6 @@ namespace TinyJSON
 
 								stringBuilder.Append( (char) Convert.ToInt32( hex.ToString(), 16 ) );
 								break;
-
-								//default:
-								//	throw new DecodeException( @"Illegal character following escape character: " + c );
 						}
 						break;
 

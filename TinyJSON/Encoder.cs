@@ -8,9 +8,9 @@ namespace TinyJSON
 {
 	public sealed class Encoder
 	{
-		static readonly Type includeAttrType = typeof( Include );
-		static readonly Type excludeAttrType = typeof( Exclude );
-		static readonly Type typeHintAttrType = typeof( TypeHint );
+		static readonly Type includeAttrType = typeof(Include);
+		static readonly Type excludeAttrType = typeof(Exclude);
+		static readonly Type typeHintAttrType = typeof(TypeHint);
 
 		StringBuilder builder;
 		EncodeOptions options;
@@ -53,15 +53,6 @@ namespace TinyJSON
 			get
 			{
 				return ((options & EncodeOptions.NoTypeHints) != EncodeOptions.NoTypeHints);
-			}
-		}
-
-
-		bool IncludePublicPropertiesEnabled
-		{
-			get
-			{
-				return ((options & EncodeOptions.IncludePublicProperties) == EncodeOptions.IncludePublicProperties);
 			}
 		}
 
@@ -127,8 +118,6 @@ namespace TinyJSON
 
 			forceTypeHint = forceTypeHint || TypeHintsEnabled;
 
-			var includePublicProperties = IncludePublicPropertiesEnabled;
-
 			var firstItem = !forceTypeHint;
 			if (forceTypeHint)
 			{
@@ -181,11 +170,10 @@ namespace TinyJSON
 				if (property.CanRead)
 				{
 					var shouldTypeHint = false;
-					var shouldEncode = includePublicProperties;
-
+					var shouldEncode = false;
 					foreach (var attribute in property.GetCustomAttributes( true ))
 					{
-						if (shouldEncode || includeAttrType.IsAssignableFrom( attribute.GetType() ))
+						if (includeAttrType.IsAssignableFrom( attribute.GetType() ))
 						{
 							shouldEncode = true;
 						}
@@ -362,16 +350,16 @@ namespace TinyJSON
 		void EncodeOther( object value, bool forceTypeHint )
 		{
 			if (value is float ||
-				value is double ||
-				value is int ||
-				value is uint ||
-				value is long ||
-				value is sbyte ||
-				value is byte ||
-				value is short ||
-				value is ushort ||
-				value is ulong ||
-				value is decimal)
+			    value is double ||
+			    value is int ||
+			    value is uint ||
+			    value is long ||
+			    value is sbyte ||
+			    value is byte ||
+			    value is short ||
+			    value is ushort ||
+			    value is ulong ||
+			    value is decimal)
 			{
 				builder.Append( value.ToString() );
 			}

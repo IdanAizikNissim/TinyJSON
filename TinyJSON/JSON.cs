@@ -117,7 +117,7 @@ namespace TinyJSON
 			if (data != null)
 			{
 				var type = data.GetType();
-				if (!(type.IsEnum || type.IsPrimitive || type.IsArray))
+				if (!(type.IsEnum() || type.GetTypeInfo().IsPrimitive || type.IsArray))
 				{
 					foreach (var method in type.GetMethods( instanceBindingFlags ))
 					{
@@ -156,6 +156,7 @@ namespace TinyJSON
 				return type;
 			}
 
+			/*
 			foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
 			{
 				type = assembly.GetType( fullName );
@@ -164,7 +165,7 @@ namespace TinyJSON
 					typeCache.Add( fullName, type );
 					return type;
 				}
-			}
+			}*/
 
 			return null;
 		}
@@ -182,12 +183,12 @@ namespace TinyJSON
 
 			var type = typeof(T);
 
-			if (type.IsEnum)
+			if (type.IsEnum())
 			{
 				return (T) Enum.Parse( type, data.ToString() );
 			}
 
-			if (type.IsPrimitive || type == typeof(string) || type == typeof(decimal))
+			if (type.GetTypeInfo().IsPrimitive || type == typeof(string) || type == typeof(decimal))
 			{
 				return (T) Convert.ChangeType( data, type );
 			}
@@ -297,7 +298,7 @@ namespace TinyJSON
 					if (shouldDecode)
 					{
 						var makeFunc = decodeTypeMethod.MakeGenericMethod( new Type[] { field.FieldType } );
-						if (type.IsValueType)
+						if (!type.IsByRef)
 						{
 							// Type is a struct.
 							var instanceRef = (object) instance;
@@ -318,7 +319,7 @@ namespace TinyJSON
 					if (property.CanWrite && property.GetCustomAttributes( false ).AnyOfType( includeAttrType ))
 					{
 						var makeFunc = decodeTypeMethod.MakeGenericMethod( new Type[] { property.PropertyType } );
-						if (type.IsValueType)
+						if (!type.IsByRef)
 						{
 							// Type is a struct.
 							var instanceRef = (object) instance;
@@ -380,7 +381,7 @@ namespace TinyJSON
 
 			foreach (var pair in data as ProxyObject)
 			{
-				var k = (K) (type.IsEnum ? Enum.Parse( type, pair.Key ) : Convert.ChangeType( pair.Key, type ));
+				var k = (K) (type.IsEnum() ? Enum.Parse( type, pair.Key ) : Convert.ChangeType( pair.Key, type ));
 				var v = DecodeType<V>( pair.Value );
 				dict.Add( k, v );
 			}
