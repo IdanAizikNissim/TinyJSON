@@ -18,6 +18,12 @@ namespace TinyJSON
 	[AttributeUsage( AttributeTargets.Field | AttributeTargets.Property )]
 	public sealed class Include : Attribute
 	{
+        public string name = null;
+
+        public Include(string name)
+        {
+            this.name = name;
+        }
 	}
 
 
@@ -55,7 +61,13 @@ namespace TinyJSON
 	[AttributeUsage( AttributeTargets.Field | AttributeTargets.Property )]
 	public class TypeHint : Attribute
 	{
-	}
+        public string name = null;
+
+        public TypeHint(string name)
+        {
+            this.name = name;
+        }
+    }
 
 
 	[Obsolete( "Use the Exclude attribute instead." )]

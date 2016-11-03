@@ -135,7 +135,8 @@ namespace TinyJSON
 			foreach (var field in fields)
 			{
 				var shouldTypeHint = false;
-				var shouldEncode = field.IsPublic;
+				var shouldEncode = false;
+                var name = "";
 				foreach (var attribute in field.GetCustomAttributes( true ))
 				{
 					if (excludeAttrType.IsAssignableFrom( attribute.GetType() ))
@@ -146,18 +147,20 @@ namespace TinyJSON
 					if (includeAttrType.IsAssignableFrom( attribute.GetType() ))
 					{
 						shouldEncode = true;
-					}
+                        name = (attribute as Include).name;
+                    }
 
 					if (typeHintAttrType.IsAssignableFrom( attribute.GetType() ))
 					{
 						shouldTypeHint = true;
-					}
+                        name = (attribute as TypeHint).name;
+                    }
 				}
 
 				if (shouldEncode)
 				{
 					AppendComma( firstItem );
-					EncodeString( field.Name );
+					EncodeString( name );
 					AppendColon();
 					EncodeValue( field.GetValue( value ), shouldTypeHint );
 					firstItem = false;
@@ -171,23 +174,27 @@ namespace TinyJSON
 				{
 					var shouldTypeHint = false;
 					var shouldEncode = false;
-					foreach (var attribute in property.GetCustomAttributes( true ))
+                    var name = "";
+
+                    foreach (var attribute in property.GetCustomAttributes( true ))
 					{
 						if (includeAttrType.IsAssignableFrom( attribute.GetType() ))
 						{
 							shouldEncode = true;
+                            name = (attribute as Include).name;
 						}
 
 						if (typeHintAttrType.IsAssignableFrom( attribute.GetType() ))
 						{
 							shouldTypeHint = true;
-						}
+                            name = (attribute as TypeHint).name;
+                        }
 					}
 
 					if (shouldEncode)
 					{
 						AppendComma( firstItem );
-						EncodeString( property.Name );
+						EncodeString( name );
 						AppendColon();
 						EncodeValue( property.GetValue( value, null ), shouldTypeHint );
 						firstItem = false;
