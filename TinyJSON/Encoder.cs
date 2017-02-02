@@ -135,8 +135,9 @@ namespace TinyJSON
 			foreach (var field in fields)
 			{
 				var shouldTypeHint = false;
-				var shouldEncode = false;
-                var name = "";
+                var shouldEncode = true;
+                var name = field.Name;
+
 				foreach (var attribute in field.GetCustomAttributes( true ))
 				{
 					if (excludeAttrType.IsAssignableFrom( attribute.GetType() ))
